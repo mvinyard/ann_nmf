@@ -1,9 +1,10 @@
 
 from ._prepare_NMF_inputs import _prepare_NMF_inputs
 from ._run_ARD_NMF import _run_ARD_NMF
-from ._select_best_result import _select_best_result
+from ._get_best_result import _get_best_result
 from ._ARDNMF_messages import _ARDNMF_messages
 from ._add_nmf_results_to_adata import _add_nmf_results_to_adata
+from ._consensus_clustering import _consensus_clustering
 
 class _ARD_NMF_GEX_wrapper:
     
@@ -17,6 +18,8 @@ class _ARD_NMF_GEX_wrapper:
         use_highly_variable=True,
         filter_mito=True,
         filter_ribo=True,
+        silent=False,
+        save=True,
         **kwargs,
     ):
 
@@ -36,14 +39,15 @@ class _ARD_NMF_GEX_wrapper:
         )
         
         self._outdir = outdir
-        self._msg = _ARDNMF_messages(self._outdir)
+        self._silent = silent
+        self._save = save
         
     def run(self, n_runs=10, cut_norm=0, cut_diff=0.1, verbose=False, **nmf_kwargs):
                 
-        self._nmf_result = _run_ARD_NMF(self._mtx_df, n_runs, verbose, self._outdir, **nmf_kwargs)
-        self._adata = _add_nmf_results_to_adata(self._adata, 
-                                                self._nmf_result, 
-                                                results_path=self._msg._h5_out, 
+        self._nmf_result, self._h5_out = _run_ARD_NMF(self._mtx_df, n_runs, verbose, self._outdir, **nmf_kwargs)
+        self._adata, self._best_run, self._best_h5 = _add_nmf_results_to_adata(self._adata, 
+                                                self._nmf_result,
+                                                h5_path=self._h5_out,
                                                 cut_norm=cut_norm, 
                                                 cut_diff=cut_diff
                                                )
@@ -51,5 +55,11 @@ class _ARD_NMF_GEX_wrapper:
     def get_best(self):
         
         """ """
+        self._aggr, self._best_run, self._best_h5 = _get_best_result(self._h5_out, self._silent, self._save)
         
-        self._best = _select_best_result(self._outdir)
+    def cluster(self):
+        
+        """ """
+        
+        
+        self._cluster_df, self._assign_p = _consensus_clustering(self._h5_out, self._best_h5)

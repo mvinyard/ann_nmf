@@ -1,6 +1,6 @@
 
 import os
-from ._select_best_result import _select_best_result
+from ._get_best_result import _get_best_result
 import signatureanalyzer as sa
 
 def _add_consensus_clusters(adata, nmf_result):
@@ -36,27 +36,28 @@ def _add_markers_to_adata(adata, markers):
 
 
 def _add_nmf_results_to_adata(
-    adata, nmf_result, results_path, cut_norm=0, cut_diff=0.1
+    adata, nmf_result, h5_path, cut_norm=0, cut_diff=0.1, silent=False, save=True
 ):
 
     """"""
 
-    best = _select_best_result(os.path.dirname(results_path))
+    aggr, best_run, h5_best = _get_best_result(h5_path, silent, save)
 
     markers, signatures = sa.utils.select_markers(
         nmf_result["X"],
-        nmf_result[best]["W"],
-        nmf_result[best]["H"],
+        nmf_result["run{}".format(best_run)]["W"],
+        nmf_result["run{}".format(best_run)]["H"],
         cut_norm=cut_norm,
         cut_diff=cut_diff,
     )
-
-    if "consensus" in list(nmf_result.keys()):
-        _add_consensus_clusters(adata, nmf_result)
+    
+    for result in nmf_result.values():
+        if "consensus" in list(result.keys()):
+            _add_consensus_clusters(adata, result)
 
     adata.obs = adata.obs.rename(columns={"max_id": "nmf_id"})
-    _add_H_to_adata(adata, nmf_result["run{}/H".format(best)])
+    _add_H_to_adata(adata, nmf_result["run{}".format(best_run)]["H"])
     _add_signatures_to_adata(adata, signatures)
     _add_markers_to_adata(adata, markers)
     
-    return adata
+    return adata, best_run, h5_best
