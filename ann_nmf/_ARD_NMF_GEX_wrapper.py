@@ -42,10 +42,11 @@ class _ARD_NMF_GEX_wrapper:
                 
         self._nmf_result = _run_ARD_NMF(self._mtx_df, n_runs, verbose, self._outdir, **nmf_kwargs)
         self._adata = _add_nmf_results_to_adata(self._adata, 
-                                       self._nmf_result, 
-                                       results_path=self._msg._h5_out, 
-                                       cut_norm=cut_norm, 
-                                       cut_diff=cut_diff)
+                                                self._nmf_result, 
+                                                results_path=self._msg._h5_out, 
+                                                cut_norm=cut_norm, 
+                                                cut_diff=cut_diff
+                                               )
         
     def get_best(self):
         
