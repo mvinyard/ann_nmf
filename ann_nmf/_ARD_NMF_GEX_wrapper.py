@@ -1,10 +1,14 @@
 
-from ._prepare_NMF_inputs import _prepare_NMF_inputs
-from ._run_ARD_NMF import _run_ARD_NMF
-from ._get_best_result import _get_best_result
-from ._ARDNMF_messages import _ARDNMF_messages
-from ._add_nmf_results_to_adata import _add_nmf_results_to_adata
-from ._consensus_clustering import _consensus_clustering
+from ._supporting_functions._prepare_NMF_inputs import _prepare_NMF_inputs
+from ._supporting_functions._run_ARD_NMF import _run_ARD_NMF
+from ._supporting_functions._get_best_result import _get_best_result
+from ._supporting_functions._ARDNMF_messages import _ARDNMF_messages
+from ._supporting_functions._add_nmf_results_to_adata import _add_nmf_results_to_adata
+from ._supporting_functions._consensus_clustering import _consensus_clustering
+from ._supporting_functions._plot_signatures import _plot_signatures
+
+from signatureanalyzer.plotting import consensus_matrix
+from signatureanalyzer.utils import get_nlogs_from_output
 
 class _ARD_NMF_GEX_wrapper:
     
@@ -41,6 +45,7 @@ class _ARD_NMF_GEX_wrapper:
         self._outdir = outdir
         self._silent = silent
         self._save = save
+        self._aggr = False
         
     def run(self, n_runs=10, cut_norm=0, cut_diff=0.1, verbose=False, **nmf_kwargs):
                 
@@ -63,3 +68,19 @@ class _ARD_NMF_GEX_wrapper:
         
         
         self._cluster_df, self._assign_p = _consensus_clustering(self._h5_out, self._best_h5)
+        if not type(self._aggr) == bool:
+            self._aggr = get_nlogs_from_output(self._h5_out)
+        self._max_k = self._aggr.groupby("K").size().idxmax()
+        self._max_k_iter = self._aggr[self._aggr["K"] == self._max_k]['K'][0]
+        self._fig, self._d = consensus_matrix(self._cluster_df, n_clusters=int(self._max_k_iter))
+        
+    def signatures(self, cut_norm=0, cut_diff=0.1):
+        
+        """
+        
+        """
+        
+        self._markers, self._signatures, self._figure = _plot_signatures(self._h5_out,
+                                                                         self._best_h5,
+                                                                         cut_norm=cut_norm,
+                                                                         cut_diff=cut_diff)
