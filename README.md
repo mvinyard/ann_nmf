@@ -8,3 +8,7 @@ AnnData wrapper of the ARD-NMF module from SignatureAnalyzer
 * ARD-NMF theory [Arxiv](https://arxiv.org/pdf/1111.6085.pdf)
 * SignatureAnalyzer ([GitHub](https://github.com/getzlab/getzlab-SignatureAnalyzer))
 * SignatureAnalyzer-GPU ([GitHub](https://github.com/broadinstitute/SignatureAnalyzer-GPU))
+
+### Acknowledgements
+
+* Most of the code to wrap SignatureAnalyzer in an AnnData-friendly API was borrowed directly from Shankara Anand.
