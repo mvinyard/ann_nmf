@@ -21,6 +21,7 @@ pip install -e .
 
 ## API overview
 
+#### Import libraries and get some data
 ```python
 import ann_nmf
 import scanpy as sc
@@ -29,13 +30,13 @@ adata = sc.datasets.pbmc3k()
 ann_nmf.ut.preprocess_raw_counts(adata)
 ```
 
-### Key class:
+#### Key class:
 ```python
 nmf = ann_nmf.NMF(adata, outdir="nmf_results/pbmc3k") # saves .h5 file
 nmf.run(n_runs=10, K0=20, max_iter=2000)
 ```
 
-### SignatureAnalyzer visualization:
+#### SignatureAnalyzer visualization:
 ```python
 nmf.cluster()
 nmf.signatures()
