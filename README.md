@@ -4,7 +4,7 @@
 [![PyPI version](https://badge.fury.io/py/ann_nmf.svg)](https://badge.fury.io/py/ann_nmf)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-AnnData wrapper of the ARD-NMF module from SignatureAnalyzer. 
+AnnData wrapper of the [**ARD-NMF module**](https://github.com/broadinstitute/SignatureAnalyzer-GPU/blob/master/ARD_NMF.py) from [**SignatureAnalyzer-GPU**](https://github.com/broadinstitute/SignatureAnalyzer-GPU).
 
 ## Installation
 
