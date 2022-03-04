@@ -1,18 +1,8 @@
-import licorice
+
 import pandas as pd
 import scanpy as sc
 
-def _scanpy_highly_variable_genes_message(hv_key):
-
-    """"""
-
-    bold_txt1 = licorice.font_format(hv_key, ["BOLD"])
-    bold_txt2 = licorice.font_format("sc.pp.highly_variable_genes", ["BOLD"])
-    print(
-        "hv_key: {} not present in adata.var. Computing highly-variable genes using {}.".format(
-            bold_txt1, bold_txt2
-        )
-    )
+from ._MessageModule import _MessageModule
 
 
 def _fetch_highly_variable_genes(
@@ -20,14 +10,16 @@ def _fetch_highly_variable_genes(
 ):
 
     """"""
-
+    
+    msg = _MessageModule()
+    
     if not hv_key in adata.var.columns.tolist():
-        _scanpy_highly_variable_genes_message(hv_key)
+        msg.scanpy_hv_genes(hv_key)
         sc.pp.highly_variable_genes(
             adata, min_mean=min_mean, max_mean=max_mean, min_disp=min_disp, **kwargs
         )
 
-    print("\t**Using {} highly variable genes.".format(sum(adata.var.highly_variable)))
+    print("\n\t**Using {} highly variable genes.".format(sum(adata.var.highly_variable)))
     genes_for_nmf = set(adata.var[adata.var["highly_variable"]].index)
 
     return genes_for_nmf

@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import signatureanalyzer as sa
 
-from ._ARDNMF_messages import _ARDNMF_messages
+from ._MessageModule import _MessageModule
 
 def _select_best_result(h5_out, msg):
 
@@ -16,9 +16,8 @@ def _select_best_result(h5_out, msg):
 
 def _store_best_run(h5_out, aggr, best_run, msg):
     
-    print(h5_out)
-    h5_out_best = ".best.".join(os.path.basename(h5_out).split("."))
-    print(h5_out_best)
+    h5_out_best_file = ".best.".join(os.path.basename(h5_out).split("."))
+    h5_out_best = os.path.join(os.path.dirname(h5_out), h5_out_best_file)
     best_run_store = pd.HDFStore(h5_out_best,'a')
     msg.saving_best_run(h5_out_best)
     
@@ -34,10 +33,23 @@ def _get_best_result(h5_out, silent=False, save=True):
     
     """
     
+    Parameters:
+    -----------
+    h5_out
+    silent
+    save
+    
+    Returns:
+    --------
+    aggr
+    
+    best_run
+    
+    h5_out_best
     """
     
-    msg = _ARDNMF_messages(h5_out, silent)    
-    aggr, best_run = _select_best_result(h5_out, msg)    
+    msg = _MessageModule(h5_out, silent)    
+    aggr, best_run = _select_best_result(h5_out, msg)
     if save:
         h5_out_best = _store_best_run(h5_out, aggr, best_run, msg)
     

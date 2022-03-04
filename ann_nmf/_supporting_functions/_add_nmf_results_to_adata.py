@@ -60,4 +60,4 @@ def _add_nmf_results_to_adata(
     _add_signatures_to_adata(adata, signatures)
     _add_markers_to_adata(adata, markers)
     
-    return adata, best_run, h5_best
+    return adata, aggr, best_run, h5_best
