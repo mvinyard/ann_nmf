@@ -10,6 +10,8 @@ from ._supporting_functions._plot_signatures import _plot_signatures
 from signatureanalyzer.plotting import consensus_matrix
 from signatureanalyzer.utils import get_nlogs_from_output
 
+import pydk
+
 class _ARD_NMF_GEX_wrapper:
     
     def __init__(
@@ -46,6 +48,8 @@ class _ARD_NMF_GEX_wrapper:
         self._silent = silent
         self._save = save
         self._aggr = False
+        
+        pydk.mkdir_flex(self._outdir)
         
     def run(self, n_runs=10, cut_norm=0, cut_diff=0.1, verbose=False, **nmf_kwargs):
                 
