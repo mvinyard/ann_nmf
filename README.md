@@ -1,4 +1,4 @@
-# ann_nmf
+![ann_nmf.logo](docs/imgs/ann_nmf.logo.svg)
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/ann_nmf.svg)](https://pypi.python.org/pypi/ann_nmf/)
 [![PyPI version](https://badge.fury.io/py/ann_nmf.svg)](https://badge.fury.io/py/ann_nmf)

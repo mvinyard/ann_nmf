@@ -16,4 +16,4 @@ def _plot_signatures(h5_out, best_h5, cut_norm=0, cut_diff=0.1):
     markers, signatures = select_markers(X, W, H, cut_norm=cut_norm, cut_diff=cut_diff)
     figure = marker_heatmap(X, signatures, H.sort_values("max_id").max_id)
 
-    return markers, signatures, figure
+    return figure

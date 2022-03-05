@@ -143,13 +143,13 @@ class _ARD_NMF_GEX_wrapper:
             
         Returns:
         --------
-        Modifies the class in-place with the following:
-            self._markers
-            self._signatures
+        Modifies the class in-place with the following:        
+            self.NMF_markers
+            self.NMF_genes
             self._GeneSignatureFigure
+            
         """
         
-        self._markers, self._signatures, self._GeneSignatureFigure = _plot_signatures(self._h5_out,
-                                                                         self._best_h5,
-                                                                         cut_norm=cut_norm,
-                                                                         cut_diff=cut_diff)
+        self._GeneSignatureFigure = _plot_signatures(self._h5_out, self._best_h5, cut_norm=cut_norm, cut_diff=cut_diff)
+        self.nmf_markers = self._adata.uns["nmf_markers"]
+        self.nmf_genes = self._adata.uns["nmf_genes"]
