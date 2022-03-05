@@ -74,7 +74,7 @@ def _add_nmf_results_to_adata(
         type: pandas.DataFrame
     """
 
-    aggr, best_run, h5_best = _get_best_result(h5_path, silent, save)
+    aggr, best_run, h5_best, max_k_iter = _get_best_result(h5_path, silent, save)
 
     markers, signatures = sa.utils.select_markers(
         nmf_result["X"],

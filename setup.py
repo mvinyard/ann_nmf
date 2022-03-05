@@ -3,7 +3,7 @@ import re, os, sys
 
 setup(
     name="ann_nmf",
-    version="0.0.0",
+    version="0.0.1",
     python_requires=">3.6.0",
     author="Michael E. Vinyard - Harvard University - Massachussetts General Hospital - Broad Institute of MIT and Harvard",
     author_email="mvinyard@broadinstitute.org",
@@ -13,13 +13,17 @@ setup(
     description="ann_nmf - AnnData wrapper of the ARD-NMF module from SignatureAnalyzer",
     packages=[
         "ann_nmf",
+        "ann_nmf._supporting_functions",
+        "ann_nmf._utilities",
     ],
     install_requires=[
-        "matplotlib>=3.5.1",
-        "pandas>=1.3.5",
-        "signatureanalyzer>=0.0.7",
         "anndata>=0.7.8",
+        "matplotlib>=3.5.1",        
         "scanpy>=1.8.2",
+        "signatureanalyzer>=0.0.7",
+        "pandas>=1.3.5",
+        "pydk>=0.0.4",
+        "vinplots>=0.0.43",
     ],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",

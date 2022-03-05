@@ -4,7 +4,9 @@ from ._supporting_functions._run_ARD_NMF import _run_ARD_NMF
 from ._supporting_functions._get_best_result import _get_best_result
 from ._supporting_functions._add_nmf_results_to_adata import _add_nmf_results_to_adata
 from ._supporting_functions._consensus_clustering import _consensus_clustering
-from ._supporting_functions._plot_signatures import _plot_signatures
+from ._supporting_functions._plot_signatures import _plot_signatures_heatmap, _plot_signatures_umap
+
+from ._utilities._quick_dimension_reduce import _quick_dimension_reduce
 
 from signatureanalyzer.plotting import consensus_matrix
 from signatureanalyzer.utils import get_nlogs_from_output
@@ -103,7 +105,9 @@ class _ARD_NMF_GEX_wrapper:
         Determine the best result post-run.
         """
         
-        self._aggr, self._best_run, self._best_h5 = _get_best_result(self._h5_out, self._silent, self._save)
+        self._aggr, self._best_run, self._best_h5, self._max_k_iter = _get_best_result(self._h5_out,
+                                                                                       self._silent,
+                                                                                       self._save)
         
     def cluster(self):
         
@@ -120,10 +124,11 @@ class _ARD_NMF_GEX_wrapper:
         
         
         self._cluster_df, self._assign_p = _consensus_clustering(self._h5_out, self._best_h5)
-        if not type(self._aggr) == bool:
-            self._aggr, self._best_run, self._best_h5 = _get_best_result(self._h5_out, self._silent, self._save)            
-        self._max_k = self._aggr.groupby("K").size().idxmax()
-        self._max_k_iter = self._aggr[self._aggr["K"] == self._max_k]['K'][0]
+        if type(self._aggr) == bool:
+            self._aggr, self._best_run, self._best_h5, self._max_k_iter = _get_best_result(self._h5_out,
+                                                                                           self._silent,
+                                                                                           self._save)
+            
         self._ConsensusFigure, self._d = consensus_matrix(self._cluster_df, n_clusters=int(self._max_k_iter))
         
     def signatures(self, cut_norm=0, cut_diff=0.1):
@@ -150,6 +155,19 @@ class _ARD_NMF_GEX_wrapper:
             
         """
         
-        self._GeneSignatureFigure = _plot_signatures(self._h5_out, self._best_h5, cut_norm=cut_norm, cut_diff=cut_diff)
+        self._GeneSignatureFigure = _plot_signatures_heatmap(self._h5_out, self._best_h5, cut_norm=cut_norm, cut_diff=cut_diff)
         self.nmf_markers = self._adata.uns["nmf_markers"]
         self.nmf_genes = self._adata.uns["nmf_genes"]
+        
+    def plot_umap_signatures(self, use_key="X_umap", dimension_reduce=False, n_pcs=50, ncols=4):
+        
+        if not dimension_reduce:
+            try:
+                adata.obsm[use_key]
+            except:
+                _quick_dimension_reduce(self._adata, n_pcs)
+        else:
+            _quick_dimension_reduce(self._adata, n_pcs)
+        
+        _plot_signatures_umap(self._adata, ncols)
+        

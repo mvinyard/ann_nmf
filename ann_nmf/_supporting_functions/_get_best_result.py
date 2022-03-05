@@ -12,7 +12,7 @@ def _select_best_result(h5_out, msg):
     best_run = int(aggr[aggr["K"] == max_k].obj.idxmin())
     msg.identified_best_run(best_run, max_k_iter, aggr)
     
-    return aggr, best_run
+    return aggr, best_run, max_k_iter
 
 def _store_best_run(h5_out, aggr, best_run, msg):
     
@@ -49,8 +49,8 @@ def _get_best_result(h5_out, silent=False, save=True):
     """
     
     msg = _MessageModule(h5_out, silent)    
-    aggr, best_run = _select_best_result(h5_out, msg)
+    aggr, best_run, max_k_iter = _select_best_result(h5_out, msg)
     if save:
         h5_out_best = _store_best_run(h5_out, aggr, best_run, msg)
     
-    return aggr, best_run, h5_out_best
+    return aggr, best_run, h5_out_best, max_k_iter
