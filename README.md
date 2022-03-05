@@ -41,6 +41,18 @@ nmf.run(n_runs=10, K0=20, max_iter=2000)
 nmf.cluster()
 nmf.signatures()
 ```
+<a><img src="https://user-images.githubusercontent.com/47393421/156896801-a5816aaf-3ecb-466c-8b8b-e92ff20f02bc.png"  height=350 hspace=20></a><a><img src="https://user-images.githubusercontent.com/47393421/156896796-3037dabb-000b-4593-8eb1-161c2d22c62f.png" height=350 hspace=20></a>
+
+```python
+nmf.plot_umap_signatures(adata)
+```
+![image](https://user-images.githubusercontent.com/47393421/156896803-d835c4e0-9fa5-460a-a194-cfc63af2fa77.png)
+
+```python
+ann_nmf.ut.fetch_signature(nmf.nmf_genes, 1)
+```
+<img width="1081" alt="gene-sig-table-example" src="https://user-images.githubusercontent.com/47393421/156896865-a2c0a29e-3b97-4050-ba60-2b75911fa4a1.png">
+
 
 ## Conceptual background and foundational work
 
@@ -50,4 +62,4 @@ nmf.signatures()
 
 ## Acknowledgements
 
-* Most of the code to wrap SignatureAnalyzer in an AnnData-friendly API was borrowed directly (and shamelessly) from Shankara Anand ([@shankara-a](https://github.com/shankara-a)) with only slight refactoring for more flexibility with fewer dependencies on install.
+* Most of the code to wrap SignatureAnalyzer in an AnnData-friendly API was borrowed directly (and shamelessly) from **Shankara Anand** (**[@shankara-a](https://github.com/shankara-a)**) with only slight refactoring for more flexibility with fewer dependencies on install.
