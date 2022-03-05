@@ -41,7 +41,7 @@ nmf.run(n_runs=10, K0=20, max_iter=2000)
 nmf.cluster()
 nmf.signatures()
 ```
-<a><img src="https://user-images.githubusercontent.com/47393421/156896801-a5816aaf-3ecb-466c-8b8b-e92ff20f02bc.png"  height=350 hspace=20></a><a><img src="https://user-images.githubusercontent.com/47393421/156896796-3037dabb-000b-4593-8eb1-161c2d22c62f.png" height=350 hspace=20></a>
+<a><img src="https://user-images.githubusercontent.com/47393421/156896801-a5816aaf-3ecb-466c-8b8b-e92ff20f02bc.png"  height=325 hspace=20></a><a><img src="https://user-images.githubusercontent.com/47393421/156896796-3037dabb-000b-4593-8eb1-161c2d22c62f.png" height=325 hspace=20></a>
 
 ```python
 nmf.plot_umap_signatures(adata)
