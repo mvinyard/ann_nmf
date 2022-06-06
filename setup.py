@@ -22,7 +22,8 @@ setup(
         "scanpy>=1.8.2",
         "signatureanalyzer>=0.0.7",
         "pandas>=1.3.5",
-        "pydk>=0.0.4",
+        "pydk>=0.0.5",
+        "licorice_font>=0.0.3",
         "vinplots>=0.0.43",
     ],
     classifiers=[
